@@ -42,7 +42,7 @@
 
 #### Addition and Scalar Multiplication
 - Matrix addition/substraction :
-    - ONLY WITH MATRIXES OF THE SAME DIMENSIONS
+    - ONLY WITH Matrices OF THE SAME DIMENSIONS
     - A = [[1, 2, 3], [4, 5, 6]]
     - B = [[9, 8, 7], [6, 5, 4]]
     - A + B = [[10, 10, 10], [10, 10, 10]]
@@ -53,7 +53,7 @@
 
 #### Matrix Vector Multiplication
 - Matrix vector multiplication :
-    - ONLY WITH MATRIXES OF THE DIMENSIONS MATCHES
+    - ONLY WITH Matrices OF THE DIMENSIONS MATCHES
     - A = [[1, 2, 3], [4, 5, 6]]
     - B = [2, 3]
     - C = A * B = [14, 19, 24]
@@ -65,7 +65,7 @@
 
 #### Matrix Matrix Multiplication
 - Matrix matrix multiplication :
-    - ONLY WITH MATRIXES OF THE DIMENSIONS MATCHES
+    - ONLY WITH MATRICES OF THE DIMENSIONS MATCHES
     - A = [[1, 2], [4, 5], [7, 8]]
     - B = [[1, 2, 3], [2, 3, 4]]
     - C = A * B = [[1+8+21=30, 2+10+24=36], [2+12+28=42, 4+15+32=51]]
