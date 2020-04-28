@@ -28,7 +28,7 @@ class Vector:
         return "Vector's size: {self.size} - Vector's values : {self.values}".format(self=self)
         
     def __repr__(self):
-        return {'values':self.values, 'size':self.size}
+        return "{{'size':{self.size}, 'values':{self.values}}}".format(self=self)
 
     def __parseVectors(self, other):
         if not type(other) is Vector:

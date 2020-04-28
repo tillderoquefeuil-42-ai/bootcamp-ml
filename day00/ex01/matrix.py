@@ -30,7 +30,7 @@ class Matrix:
         return "Matrix's dimensions are {self.shape} - Matrix's data are {self.data}".format(self=self)
 
     def __repr__(self):
-        return {'data':self.data, 'shape':self.shape}
+        return "{{'shape':{self.shape}, 'data':{self.data}}}".format(self=self)
 
 
     def __parseMatrix(self, data):
