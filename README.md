@@ -33,8 +33,8 @@
 #### Matrices and Vectors
 - Matrix :
     - definition : multiple dimensions array (eg: A = [[1, 2, 3], [4, 5, 6]])
-    - dimension : number of rows * number of columns (eg: ℝA = 3 * 2 = 5)
-    - elements : i, j refers to the i_th row and j_th columns (eg: A₂₁ = 4)
+    - dimension : number of columns * number of rows (eg: ℝA = 2 * 3 = 6)
+    - elements : i, j refers to the i_th columns and j_th row (eg: A₂₁ = 4)
 - Vector :
     - definition : matrix that has only 1 column (eg: V = [1, 2, 3, 4])
     - dimension : number of rows (eg: ℝV = 4)
@@ -57,7 +57,7 @@
     - A = [[1, 2, 3], [4, 5, 6]]
     - B = [2, 3]
     - C = A * B = [14, 19, 24]
-    - dimension : ℝA = 3 * 2 & ℝB = 2 * 1 -> ℝC = ℝA₀ * ℝB₁ = 3 * 1
+    - dimension : ℝA = 2 * 3 & ℝB = 1 * 2 -> ℝC = ℝA₁ * ℝB₀ = 3 * 1
 - Simplification : 
     - Prediction = Datamatrix * parameters
     - Datamatrix = [[1, 1, 1, 1], [m₀, m₁, m₂, m₃]]
@@ -68,8 +68,8 @@
     - ONLY WITH MATRICES OF THE DIMENSIONS MATCHES
     - A = [[1, 2], [4, 5], [7, 8]]
     - B = [[1, 2, 3], [2, 3, 4]]
-    - C = A * B = [[1+8+21=30, 2+10+24=36], [2+12+28=42, 4+15+32=51]]
-    - dimension : ℝA = 2 * 3 & ℝB = 3 * 2 -> ℝC = ℝA₀ * ℝB₁ = 2 * 2
+    - C = A * B = [[5, 8, 11], [14, 23, 32], [23, 38, 53]]
+    - dimension : ℝA = 3 * 2 & ℝB = 2 * 3 -> ℝC = ℝA₁ * ℝB₀ = 3 * 3
 - Simplification : 
     - Prediction = Datamatrix * parameters
     - Datamatrix = [[1, 1, 1, 1], [m₀, m₁, m₂, m₃]]
