@@ -20,15 +20,42 @@
     - s : input (variable/features)
     - y : output (variable/target)
 - Hypothesis : (h) h maps from x's to y's
-- Linear regression with one variable/Univariate linear regression : model where hθ(x) = θ₀ + θ₁ * x
+- Linear regression with one variable/Univariate linear regression : model where h_θ(x) = θ₀ + θ₁ * x
 
 #### Cost Function
 - θi : parameters of the model
 - define θi :
     - concept : minimize the difference between h(x) and y (in order to get a line as close as possible to dataset)
     - formula : (1/2m) * ∑m,i(h(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
-    - Cost function/Squared error function : J(θ₀, θ₁) = (1/2m) * ∑m,i(h(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+    - Cost function/Squared error function : J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
     - minimize J(θ₀θ₁)
+
+#### Gradient Descent
+- find minimum J(θ₀, θ₁)
+- step by step changing θ₀ & θ₁ until finding min value
+- formula :
+    - θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
+    - α : learning rate (step size)
+    - (∂/∂*θ_j) * J(θ₀, θ₁) : derivative (smaller when approach a local minimum)
+    - θ_j : with _j = 0 and _j = 1
+    - θ_j for θ₀ & θ₁ has to be updated simultaneously
+
+#### Gradient Descent For Linear Regression
+- Gradient descent algorithm : θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
+- Linear regression model : 
+    - h_θ(x) = θ₀ + θ₁ * x
+    - J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+- Implementation :
+    - global: θ_j := θ_j - α(∂/∂*θ_j) * (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+    - for θ₀: θ₀ := θ₀ - α * (1/m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)
+    - for θ₁: θ₁ := θ₁ - α * (1/m) * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾)
+- Features scaling :
+    - if multiple features, scale values to improve speed of gradient descent 
+    - scale them to get -1 ≤ x_i ≤ 1 (with x_i = value in dataset)
+    - Mean normalization :
+        - replace x_i with x_i - μ_i (with μ_i = average value of x)
+        - replace x_i with (x_i - μ_i)/s_i (with s_i = range (max - min))
+
 
 #### Matrices and Vectors
 - Matrix :
