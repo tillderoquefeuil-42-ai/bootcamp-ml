@@ -2,60 +2,8 @@
 
 ## Machine Learning MOOC - Stanford
 
-### Week 1
 
-#### Supervised learning
-- Supervised learning : ("right answers" given) With a given data set and already know what correct output should look like, having the idea that there is a relationship between the input and the output
-- Regression problem : predict continuous valued output (straight line/curve line)(eg: price evolution)
-- Classification problem : discrete valued output (eg: true/false answers)
-
-#### Unsupervised learning
-- Unsupervised learning : data all same label/no labels
-- Clustering : separate data in clusters
-- Non-clustering : allows you to find structure in a chaotic environment
-
-#### Model Representation
-- Data/Training set :
-    - m : number of trainnig examples
-    - s : input (variable/features)
-    - y : output (variable/target)
-- Hypothesis : (h) h maps from x's to y's
-- Linear regression with one variable/Univariate linear regression : model where h_θ(x) = θ₀ + θ₁ * x
-
-#### Cost Function
-- θi : parameters of the model
-- define θi :
-    - concept : minimize the difference between h(x) and y (in order to get a line as close as possible to dataset)
-    - formula : (1/2m) * ∑m,i(h(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
-    - Cost function/Squared error function : J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
-    - minimize J(θ₀θ₁)
-
-#### Gradient Descent
-- find minimum J(θ₀, θ₁)
-- step by step changing θ₀ & θ₁ until finding min value
-- formula :
-    - θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
-    - α : learning rate (step size)
-    - (∂/∂*θ_j) * J(θ₀, θ₁) : derivative (smaller when approach a local minimum)
-    - θ_j : with _j = 0 and _j = 1
-    - θ_j for θ₀ & θ₁ has to be updated simultaneously
-
-#### Gradient Descent For Linear Regression
-- Gradient descent algorithm : θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
-- Linear regression model : 
-    - h_θ(x) = θ₀ + θ₁ * x
-    - J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
-- Implementation :
-    - global: θ_j := θ_j - α(∂/∂*θ_j) * (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
-    - for θ₀: θ₀ := θ₀ - α * (1/m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)
-    - for θ₁: θ₁ := θ₁ - α * (1/m) * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾)
-- Features scaling :
-    - if multiple features, scale values to improve speed of gradient descent 
-    - scale them to get -1 ≤ x_i ≤ 1 (with x_i = value in dataset)
-    - Mean normalization :
-        - replace x_i with x_i - μ_i (with μ_i = average value of x)
-        - replace x_i with (x_i - μ_i)/s_i (with s_i = range (max - min))
-
+### Matrix
 
 #### Matrices and Vectors
 - Matrix :
@@ -123,3 +71,95 @@
     - inverse rows & columns for a matrix
     - For A with ℝA = m * n & B = At
     - ℝB = n * m & A(ij) = B(ji)
+
+
+### Machine Learning
+
+#### Supervised learning
+- Supervised learning : ("right answers" given) With a given data set and already know what correct output should look like, having the idea that there is a relationship between the input and the output
+- Regression problem : predict continuous valued output (straight line/curve line)(eg: price evolution)
+- Classification problem : discrete valued output (eg: true/false answers)
+
+#### Unsupervised learning
+- Unsupervised learning : data all same label/no labels
+- Clustering : separate data in clusters
+- Non-clustering : allows you to find structure in a chaotic environment
+
+#### Model Representation
+- Data/Training set :
+    - m : number of trainnig examples
+    - s : input (variable/features)
+    - y : output (variable/target)
+- Hypothesis : (h) h maps from x's to y's
+- Linear regression with one variable/Univariate linear regression : model where h_θ(x) = θ₀ + θ₁ * x
+
+#### Cost Function
+- θi : parameters of the model
+- define θi :
+    - concept : minimize the difference between h(x) and y (in order to get a line as close as possible to dataset)
+    - formula : (1/2m) * ∑m,i(h(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+    - Cost function/Squared error function : J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+    - minimize J(θ₀θ₁)
+
+#### Gradient Descent
+- find minimum J(θ₀, θ₁)
+- step by step changing θ₀ & θ₁ until finding min value
+- formula :
+    - θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
+    - α : learning rate (step size)
+    - (∂/∂*θ_j) * J(θ₀, θ₁) : derivative (smaller when approach a local minimum)
+    - θ_j : with _j = 0 and _j = 1
+    - θ_j for θ₀ & θ₁ has to be updated simultaneously
+
+#### Gradient Descent For Linear Regression
+- Gradient descent algorithm : θ_j := θ_j - α(∂/∂*θ_j) * J(θ₀, θ₁)
+- Linear regression model : 
+    - h_θ(x) = θ₀ + θ₁ * x
+    - J(θ₀, θ₁) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+- Implementation :
+    - global: θ_j := θ_j - α(∂/∂*θ_j) * (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+    - for θ₀: θ₀ := θ₀ - α * (1/m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)
+    - for θ₁: θ₁ := θ₁ - α * (1/m) * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾)
+
+#### Multiple Features
+- Notations :
+    - n features: x₁, x₂, ... x_n
+    - y : result
+    - x⁽ⁱ⁾ : vector of all features of the i-th row (x⁽ⁱ⁾_j: value j in x⁽ⁱ⁾)
+- Hypothesis : 
+    - h_θ(x) = θ₀ + (θ₁ * x₁) + (θ₂ *  x₂) ... + (θ_n *  x_n)
+    - x = [x₀, x₁, x₂, ... x_n] (with x₀ = 1)
+    - θ = [θ₀, θ₁, θ₂, ... θ_n]
+    - θ^T . x (^T: transpose)
+- Cost function :
+    - J(θ) = (1/2m) * ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²
+- Gradient Descent :
+    - θ_j := θ_j - α(∂/∂*θ_j) * J(θ)
+    - for θ_n: θ_n := θ_n - α * (1/m) * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾_n)
+
+#### Features Scaling
+- if multiple features, scale values to improve speed of gradient descent 
+- scale them to get -1 ≤ x_i ≤ 1 (with x_i = value in dataset)
+- Mean normalization :
+    - replace x_i with x_i - μ_i (with μ_i = average value of x)
+    - replace x_i with (x_i - μ_i)/s_i (with s_i = range (max - min))
+
+#### Learning Rate
+- debbuging :
+    - plot j(θ) / Number of iterations
+    - if decrease OK
+    - if not, use a smaller α
+    - /!\ if too small : slow convergence
+- choosing :
+    - α = 0.001
+    - do it again with α = 3α 
+
+#### Features and Polynomial Regression
+- Features can be modify if data are appropriate:
+    - in h_θ(x) = θ₀ + (θ₁ * x₁) + (θ₂ *  x₂) where x₁:L and x₂:l
+    - in h_θ(x) = θ₀ + (θ₁ * (x₁ *  x₂))
+- Polynomial regression :
+    - for h_θ(x) = θ₀ + (θ₁ * x) ; the line will be straigth ( / )
+    - for h_θ(x) = θ₀ + (θ₁ * x) + (θ₂ * √x) ; the line will be curved ( / )
+    - for h_θ(x) = θ₀ + θ₁ * x + θ₂ * x² ; the line will be curved ( /\ )
+    - for h_θ(x) = θ₀ + (θ₁ * x) + (θ₂ * x²) + (θ₃ * x³) ; the line will be curved ( /\/ )
