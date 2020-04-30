@@ -11,10 +11,12 @@ Y = np.array(data[['Sell_price']])
 
 myLR_age = MyLR([[1000.0], [-1.0]])
 
+# myLR_age.fit_(X[:,0].reshape(-1,1), Y, alpha = 2.5e-5, n_cycle = 100000)
 myLR_age.fit_(X[:,0].reshape(-1,1), Y, alpha = 2.5e-5, n_cycle = 50000)
+print(myLR_age.thetas)
 
-RMSE_age = myLR_age.mse_(X[:,0].reshape(-1,1),Y) 
-print(RMSE_age)
+MSE_age = myLR_age.mse_(X[:,0].reshape(-1,1),Y) 
+print(MSE_age)
 # Output :
 # 57636.77729...
 
