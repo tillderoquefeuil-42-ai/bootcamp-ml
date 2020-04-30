@@ -1,15 +1,19 @@
 import numpy as np
 
 class MyLinearRegression():
-    '''
-    Description: My personnal linear regression class to fit like a boss.
-    '''
 
-    def __init__(self, thetas, alpha=0.001, max_iter=1000):
+    def __init__(self, thetas, alpha=0.001, n_cycle=1000):
         self.alpha = alpha
-        self.max_iter = max_iter
-        self.thetas = thetas
+        self.n_cycle = int(n_cycle)
+        self.thetas = self.__parseThetas(thetas)
 
+    def __parseThetas(self, thetas):
+        if type(thetas) == list:
+            return np.asarray(thetas, dtype=np.float32).reshape(2, 1)
+        elif type(thetas) == np.ndarray and len(thetas) != thetas.shape:
+            return thetas.reshape(thetas.shape[0], 1)
+        else:
+            raise TypeError("thetas has to be -list- or -numpy.ndarray- and contain 2 elements")
 
     def __isEmpty(self, *arg):
         for data in arg:
@@ -25,62 +29,21 @@ class MyLinearRegression():
         return True
 
     def __addIntercept(self, data):
-        data = data.reshape(data.shape[0], 1)
-        return np.insert(data, 0, 1, axis=1)
+        return np.concatenate((np.ones(data.shape[0]).reshape(data.shape[0], 1), data.reshape((data.shape[0], 1))), axis = 1)
 
     def __parseData(self, data):
-        if len(data.shape) == 1:
-            return data
-        if data.shape[0] > data.shape[1]:
-            data = data.transpose()
-        if len(data.shape) > 1:        
-            data = data[0]
+        return data.reshape(len(data), 1)
 
-        return data
+    def predict_(self, x, *arg, **kwargs):
+        thetas = kwargs.get('thetas', self.thetas)
 
-    def __gradient(self, x, y, thetas):
-        result = [
-            self.__forumla(x, y, thetas, 0),
-            self.__forumla(x, y, thetas, 1)
-        ]
-        return np.array(result)
-
-    def __forumla(self, x, y, thetas, j):
-        length = x.shape[0]
-        value = thetas[j] - self.alpha * (1/length) * np.sum(((x.dot(thetas) - y) * x[:,j:][:,0]))
-        return value
-
-
-    def fit_(self, x, y):
-        if self.__isEmpty(x, y) is True:
-            return None
-        elif self.__dimensionsMatch(x, y) is False:
-            return None
-
-        x = self.__addIntercept(self.__parseData(x))
-        y = self.__parseData(y)
-
-        t = self.thetas[:]
-        
-        for i in range(0, self.max_iter):
-            oldt = t[:]
-            t = self.__gradient(x, y, t)
-            if oldt[0] == t[0] and oldt[1] == t[1]:
-                setattr(self, 'thetas', t)
-                return
-        setattr(self, 'thetas', t)
-        return
-
-
-    def predict_(self, x):
         if self.__isEmpty(x) is True:
             return None
 
-        x = self.__addIntercept(self.__parseData(x))
+        x = self.__addIntercept(x)
 
-        result = x.dot(self.thetas)
+        result = x.dot(thetas)
         return np.array(result)
-
 
     def cost_elem_(self, x, y):
         if self.__isEmpty(x, y) is True:
@@ -88,13 +51,12 @@ class MyLinearRegression():
         elif self.__dimensionsMatch(x, y) is False:
             return None
 
-        x = self.__parseData(x)
+        x = self.predict_(x)
         y = self.__parseData(y)
 
-        length = x.shape[0]
-        value = np.power(x - y, 2)/length
+        length = y.shape[0]
+        value = np.power(x - y, 2) * (1 / (2*length))
         return value
-
 
     def cost_(self, x, y):
         result = self.cost_elem_(x, y)
@@ -103,3 +65,31 @@ class MyLinearRegression():
 
         return np.sum(result)
 
+    def gradient(self, x, y):
+        y = self.__parseData(y)
+        y_hat = self.predict_(x)
+        X = self.__addIntercept(x)
+
+        m = len(y)
+        Y = y_hat - y
+
+        return (1 / m) * X.transpose().dot(Y)
+
+    def fit_(self, x, y, *arg, **kwargs):
+        if self.__isEmpty(x, y) is True:
+            return None
+        elif self.__dimensionsMatch(x, y) is False:
+            return None
+
+        alpha = kwargs.get('alpha', self.alpha)
+        n_cycle = int(kwargs.get('n_cycle', self.n_cycle))
+
+        for i in range(n_cycle):
+            oldThetas = self.thetas[:]
+
+            grad = self.gradient(x, y)
+            self.thetas = self.thetas - alpha * grad
+            if np.array_equal(self.thetas, oldThetas):
+                break
+
+        return self.thetas
