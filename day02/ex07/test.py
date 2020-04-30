@@ -4,8 +4,9 @@ from mylinearregression import MyLinearRegression as MyLR
 X = np.array([[1., 1., 2., 3.], [5., 8., 13., 21.], [34., 55., 89., 144.]])
 Y = np.array([[23.], [48.], [218.]])
 
-alpha = 0.0005
-mylr = MyLR([[1.], [1.], [1.], [1.], [1]], alpha=alpha)
+alpha = 0.0001
+n_cycle = 160000
+mylr = MyLR([[1.], [1.], [1.], [1.], [1]], alpha=alpha, n_cycle=n_cycle)
 # mylr = MyLR([[0.], [0.], [0.], [0.], [0]])
 
 # Example 0:

@@ -64,7 +64,7 @@ class MyLinearRegression():
         x = self.predict_(x)
 
         length = x.shape[0]
-        value = np.power(x - y, 2)/(2*length)
+        value = np.power(x - y, 2)/(length)
         return value
 
     def cost_(self, x, y):
@@ -96,3 +96,5 @@ class MyLinearRegression():
 
         return self.thetas
 
+    def mse_(self, x, y):
+        return self.cost_(x, y)
