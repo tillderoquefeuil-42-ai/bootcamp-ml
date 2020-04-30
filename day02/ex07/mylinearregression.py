@@ -6,20 +6,16 @@ class MyLinearRegression():
     Description: My personnal linear regression class to fit like a boss.
     '''
 
-    def __init__(self, thetas, alpha=0.001, max_iter=1000):
+    def __init__(self, thetas, alpha=0.001, n_cycle=1000):
         self.alpha = alpha
-        self.max_iter = max_iter
+        self.n_cycle = int(n_cycle)
         self.thetas = self.__parseThetas(thetas)
 
     def __parseThetas(self, thetas):
-        if type(thetas) == list and len(thetas) > 1:
-            return np.array(thetas)
-        elif type(thetas) == list and len(thetas) < 2:
-            raise ValueError("thetas has contain minimum 2 elements")
-        elif type(thetas) == np.ndarray and len(thetas.shape) == 2:
-            return thetas[:,0]
-        elif type(thetas) == np.ndarray and len(thetas.shape) == 1:
-            return thetas
+        if type(thetas) == list:
+            return np.asarray(thetas, dtype=np.float32).reshape(len(thetas), 1)
+        elif type(thetas) == np.ndarray and len(thetas) != thetas.shape:
+            return thetas.reshape(thetas.shape[0], 1)
         else:
             raise TypeError("thetas has to be -list- or -numpy.ndarray- and contain 2 elements")
 
@@ -36,18 +32,11 @@ class MyLinearRegression():
             return False
         return True
 
-    def __addIntercept(self, data):        
-        return np.insert(data, 0, 1, axis=1)
+    def __addIntercept(self, data):
+        return np.concatenate((np.ones(data.shape[0]).reshape(data.shape[0], 1), data), axis=1)
 
     def __parseData(self, data):
-        if len(data.shape) == 1:
-            return data
-        if data.shape[0] > data.shape[1]:
-            data = data.transpose()
-        if len(data.shape) > 1:        
-            data = data[0]
-
-        return data
+        return data.reshape(len(data), 1)
 
     def __zscore(self, data):
         std = np.std(data, axis=0)
@@ -57,29 +46,6 @@ class MyLinearRegression():
         M1 = np.full(data.shape, 1/std)
         return (data - M0) * M1
 
-
-    def fit_(self, x, y):
-        if self.__isEmpty(x, y) is True:
-            return None
-        elif self.__dimensionsMatch(x, y) is False:
-            return None
-
-        x = self.__addIntercept(self.__zscore(x))
-        y = self.__parseData(y)
-
-        t = self.thetas[:,0]
-
-        length = x.shape[0]
-        for i in range(0, self.max_iter):
-            oldt = t[:]
-
-            t = t - (self.alpha/length) * x.transpose().dot((x.dot(t) - y))
-            if np.array_equal(t, oldt):
-                break
-
-        setattr(self, 'thetas', t.transpose())
-        return t
-
     def predict_(self, x):
         if self.__isEmpty(x) is True:
             return None
@@ -88,7 +54,6 @@ class MyLinearRegression():
         result = x.dot(self.thetas)
 
         return result
-
 
     def cost_elem_(self, x, y):
         if self.__isEmpty(x, y) is True:
@@ -102,7 +67,6 @@ class MyLinearRegression():
         value = np.power(x - y, 2)/(2*length)
         return value
 
-
     def cost_(self, x, y):
         result = self.cost_elem_(x, y)
         if result is None:
@@ -110,10 +74,25 @@ class MyLinearRegression():
 
         return np.sum(result)
 
-    # def plot_best_h(self, x, y):
-    #     self.fit_(x, y)
+    def fit_(self, x, y, *arg, **kwargs):
+        if self.__isEmpty(x, y) is True:
+            return None
+        elif self.__dimensionsMatch(x, y) is False:
+            return None
 
-    #     bestFit = self.predict_(x)
-    #     plt.plot(x, y, 'co', x, bestFit, 'gx--')
-    #     plt.show()
+        alpha = kwargs.get('alpha', self.alpha)
+        n_cycle = int(kwargs.get('n_cycle', self.n_cycle))
+
+        x = self.__addIntercept(self.__zscore(x))
+        y = self.__parseData(y)
+
+        length = x.shape[0]
+        for i in range(0, n_cycle):
+            oldThetas = self.thetas[:]
+
+            self.thetas = self.thetas - (1/length) * alpha * x.transpose().dot((x.dot(self.thetas) - y))
+            if np.array_equal(self.thetas, oldThetas):
+                break
+
+        return self.thetas
 

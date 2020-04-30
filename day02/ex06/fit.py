@@ -1,7 +1,15 @@
 import numpy as np
 
 
-def fit_(x, y, theta, alpha, n_cycles):
+def fit_(x, y, thetas, alpha, n_cycles):
+
+    def __parseThetas(thetas):
+        if type(thetas) == list:
+            return np.asarray(thetas, dtype=np.float32).reshape(len(thetas), 1)
+        elif type(thetas) == np.ndarray and len(thetas) != thetas.shape:
+            return thetas.reshape(thetas.shape[0], 1)
+        else:
+            raise TypeError("thetas has to be -list- or -numpy.ndarray- and contain 2 elements")
 
     def __isEmpty(*arg):
         for data in arg:
@@ -17,41 +25,24 @@ def fit_(x, y, theta, alpha, n_cycles):
         return True
 
     def __addIntercept(data):
-        return np.insert(data, 0, 1, axis=1)
-
-    def __parseTheta(thetas):
-        if type(thetas) == list and len(thetas) > 1:
-            return np.array(thetas)
-        elif type(thetas) == list and len(thetas) < 2:
-            raise ValueError("thetas has contain minimum 2 elements")
-        elif type(thetas) == np.ndarray and len(thetas.shape) == 2:
-            return thetas[:,0]
-        elif type(thetas) == np.ndarray and len(thetas.shape) == 1:
-            return thetas
-        else:
-            raise TypeError("thetas has to be -list- or -numpy.ndarray- and contain 2 elements")
+        return np.concatenate((np.ones(data.shape[0]).reshape(data.shape[0], 1), data), axis=1)
 
     def __parseData(data):
-        if len(data.shape) == 1:
-            return data
-        if data.shape[0] > data.shape[1]:
-            data = data.transpose()
-        if len(data.shape) > 1:        
-            data = data[0]
-        return data        
+        return data.reshape(len(data), 1)
 
     if __isEmpty(x, y) is True:
         return None
     elif __dimensionsMatch(x, y) is False:
         return None
 
-    theta = __parseTheta(theta)
+    thetas = __parseThetas(thetas)
 
     x = __addIntercept(x)
     y = __parseData(y)
 
-    t = theta[:]
+    t = thetas[:]
     length = x.shape[0]
+
     for i in range(0, n_cycles):
         oldt = t[:]
 
