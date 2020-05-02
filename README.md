@@ -163,3 +163,37 @@
     - for h_θ(x) = θ₀ + (θ₁ * x) + (θ₂ * √x) ; the line will be curved ( / )
     - for h_θ(x) = θ₀ + θ₁ * x + θ₂ * x² ; the line will be curved ( /\ )
     - for h_θ(x) = θ₀ + (θ₁ * x) + (θ₂ * x²) + (θ₃ * x³) ; the line will be curved ( /\/ )
+
+#### Logistic Regression
+- reminder : 
+    - in classification problems -> discrete valued output (eg: true/false answers)
+    - y ∈ {0, 1} where 0 is the -negative class- and 1 the -positive class-
+    - mutliclass classification problems : y ∈ {0, 1, 2, ..., n}
+    - don't use linear regression in classification problems
+- Hypothesis :
+    - h_θ(x) = g(θ^T . x)
+    - g(z) = 1 / (1 + e^(-z))
+    - h_θ(x) = 1 / (1 + e^(-θ^T.x))
+    - h_θ(x) is now the probability that for x, y is the positive class
+- Decision boundary :
+    - g(z) = 0.5 if z = 0
+    - θ^T.x > 0 -> h_θ(x) = 1
+    - θ^T.x < 0 -> h_θ(x) = 0
+    - line that separate y=1 from y=0
+    - where h_θ(x) == 0.5
+- Cost function :
+    - J(θ) = (1/m) * ∑m,i(cost(h_θ(x⁽ⁱ⁾), y⁽ⁱ⁾))
+    - cost(h_θ(x), y) = 1/2 * (h_θ(x) - y)² ❌ (non-convex function)
+    - cost(h_θ(x), y) = 
+        - for y = 1 : -log(h_θ(x)) ✅ (convex function)
+        - for y = 0 : -log(1 - h_θ(x)) ✅ (convex function)
+    - cost(h_θ(x), y) = (-y * log(h_θ(x)) - (1 - y) * log(1 - h_θ(x)) 
+    - J(θ) = (-1/m) * ∑m,i((-y * log(h_θ(x)) - (1 - y) * log(1 - h_θ(x)))
+- Gradient descent :
+    - θ_j := θ_j - α(∂/∂*θ_j) * J(θ)
+    - θ_j := θ_j - α * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾_j)
+- Multiclass (One-vs-all):
+    - y ∈ {0, 1, 2}
+    - y ∈ {(0, 1), 2} / y ∈ {(2, 0), 1} / y ∈ {(1, 2), 0}
+    - h⁽ⁱ⁾_θ(x) where i ∈ y
+    - to make a predict : MAX(h⁽ⁱ⁾_θ(x))
