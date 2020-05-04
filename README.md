@@ -197,3 +197,19 @@
     - y ∈ {(0, 1), 2} / y ∈ {(2, 0), 1} / y ∈ {(1, 2), 0}
     - h⁽ⁱ⁾_θ(x) where i ∈ y
     - to make a predict : MAX(h⁽ⁱ⁾_θ(x))
+
+#### Overfitting
+- **undefitting** (high bias) : if algorithm doesn't fit the training data
+- **overfitting** (high variance) : if algorithm fit all the training data in irregular way
+- solve overfitting :
+    - Reduce the number of features
+    - Regularization
+- Regularization and cost function :
+    - J(θ) = (1/2m) * [ ∑m,i(h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾)² + ( λ * ∑n,j(θ_j)² ) ]
+    - λ : regularization parameter (not too large else -> underfit)
+- Gradient Descent :
+    - Linear regression :
+        - θ_j := θ_j * (1 - α *λ/m ) - α * (1/m) * ∑m,i((h_θ(x⁽ⁱ⁾) - y⁽ⁱ⁾) * x⁽ⁱ⁾_j)
+        - for X = [ x⁽¹⁾^T ... x⁽ⁱ⁾^T ] and y = [ y⁽¹⁾ ... y⁽ⁱ⁾ ]
+        - A = [ [0, 0, 0, ...], [0, 1, 0, ...], [0, 0, 1, ...], ... ] (ℝA = n+1 * n+1)
+        - θ := (X^T . X + λ.A)⁻¹ * X^T.y
